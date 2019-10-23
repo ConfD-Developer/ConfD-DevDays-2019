@@ -1,0 +1,20 @@
+An NSO interop testing image
+============================
+
+Build a NSO interop testing container image.
+
+Prerequisites
+-------------
+
+NSO-installer, e.g. from https://developer.cisco.com/site/nso/
+
+Steps
+-----
+1. Drop the NSO installer into the resources directory.
+2. Create the NSO Interop testing image
+
+$ docker build --tag nso-interop:v1 .
+
+3. Run the docker image exposing the internal IPC port.
+
+$ docker run -it --rm -p 4569:4569 --init nso-interop:v1

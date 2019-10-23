@@ -1,0 +1,12 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <drned-xmnr xmlns="http://cisco.com/ns/drned-xmnr">
+    <log-detail>
+      <cli>drned-overview</cli>
+    </log-detail>
+  </drned-xmnr>
+  <python-vm xmlns="http://tail-f.com/ns/ncs">
+    <logging>
+      <level>level-debug</level>
+    </logging>
+  </python-vm>
+</config>
