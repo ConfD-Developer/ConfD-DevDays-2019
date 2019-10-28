@@ -1,0 +1,204 @@
+<!-- -*- nxml -*- -->
+
+<confdConfig xmlns="http://tail-f.com/ns/confd_cfg/1.0">
+  <loadPath>
+    <dir>..</dir>
+  </loadPath>
+
+  <stateDir>.</stateDir>
+
+  <enableAttributes>true</enableAttributes>
+
+  <cdb>
+    <enabled>true</enabled>
+    <dbDir>./confd-cdb</dbDir>
+    <operational>
+      <enabled>true</enabled>
+    </operational>
+  </cdb>
+
+  <cli>
+    <ssh>
+      <enabled>false</enabled>
+    </ssh>
+  </cli>
+
+  <confdIpcAddress>
+    <port><!-- %IPC% --></port>
+  </confdIpcAddress>
+
+  <rollback>
+    <enabled>true</enabled>
+    <directory>./confd-cdb</directory>
+  </rollback>
+
+  <encryptedStrings>
+    <DES3CBC>
+      <key1>0123456789abcdef</key1>
+      <key2>0123456789abcdef</key2>
+      <key3>0123456789abcdef</key3>
+      <initVector>0123456789abcdef</initVector>
+    </DES3CBC>
+
+    <AESCFB128>
+      <key>0123456789abcdef0123456789abcdef</key>
+      <initVector>0123456789abcdef0123456789abcdef</initVector>
+    </AESCFB128>
+  </encryptedStrings>
+
+  <logs>
+    <syslogConfig>
+      <facility>daemon</facility>
+      <udp>
+        <enabled>false</enabled>
+        <host>syslogsrv.example.com</host>
+        <port>514</port>
+      </udp>
+    </syslogConfig>
+
+    <confdLog>
+      <enabled>true</enabled>
+      <file>
+        <enabled>true</enabled>
+        <name>./confd.log</name>
+      </file>
+      <syslog>
+        <enabled>true</enabled>
+      </syslog>
+    </confdLog>
+
+    <developerLog>
+      <enabled>false</enabled>
+      <file>
+        <enabled>true</enabled>
+        <name>./devel.log</name>
+      </file>
+      <syslog>
+        <enabled>false</enabled>
+      </syslog>
+    </developerLog>
+
+    <auditLog>
+      <enabled>true</enabled>
+      <file>
+        <enabled>true</enabled>
+        <name>./audit.log</name>
+      </file>
+      <syslog>
+        <enabled>false</enabled>
+      </syslog>
+    </auditLog>
+
+    <errorLog>
+      <enabled>true</enabled>
+      <filename>./confderr.log</filename>
+    </errorLog>
+
+    <netconfLog>
+      <enabled>false</enabled>
+      <file>
+        <enabled>true</enabled>
+        <name>./netconf.log</name>
+      </file>
+      <syslog>
+        <enabled>false</enabled>
+      </syslog>
+    </netconfLog>
+
+    <webuiBrowserLog>
+      <enabled>true</enabled>
+      <filename>./browser.log</filename>
+    </webuiBrowserLog>
+
+    <webuiAccessLog>
+      <enabled>true</enabled>
+      <dir>./</dir>
+    </webuiAccessLog>
+
+    <netconfTraceLog>
+      <enabled>false</enabled>
+      <filename>./netconf.trace</filename>
+      <format>pretty</format>
+    </netconfTraceLog>
+
+    <progressTrace><enabled>true</enabled><dir>.</dir></progressTrace>
+
+  </logs>
+
+  <hideGroup><name>debug</name></hideGroup>
+
+  <datastores>
+    <startup>
+      <enabled>false</enabled>
+    </startup>
+
+    <candidate>
+      <enabled>true</enabled>
+      <implementation>confd</implementation>
+      <storage>auto</storage>
+      <filename>./confd_candidate.db</filename>
+    </candidate>
+
+    <running>
+      <access>writable-through-candidate</access>
+    </running>
+  </datastores>
+
+  <aaa>
+    <sshServerKeyDir>../ssh-keydir</sshServerKeyDir>
+  </aaa>
+
+  <netconf>
+    <enabled>true</enabled>
+    <transport>
+      <ssh>
+    <enabled>true</enabled>
+    <ip>127.0.0.1</ip>
+    <port><!-- %SSH-PORT% --></port>
+      </ssh>
+
+      <tcp>
+    <enabled>false</enabled>
+    <ip>127.0.0.1</ip>
+    <port><!-- %TCP-PORT% --></port>
+      </tcp>
+    </transport>
+
+    <capabilities>
+      <writable-running>
+        <enabled>false</enabled>
+      </writable-running>
+      <confirmed-commit>
+        <enabled>true</enabled>
+      </confirmed-commit>
+      <rollback-on-error>
+        <enabled>true</enabled>
+      </rollback-on-error>
+    </capabilities>
+  </netconf>
+  <webui>
+    <enabled>true</enabled>
+
+    <transport>
+      <tcp>
+        <enabled>true</enabled>
+        <ip>127.0.0.1</ip>
+        <port><!-- %HTTP-PORT% --></port>
+      </tcp>
+
+      <ssl>
+        <enabled>true</enabled>
+        <ip>127.0.0.1</ip>
+        <port><!-- %HTTPS-PORT% --></port>
+      </ssl>
+    </transport>
+
+    <cgi>
+      <enabled>true</enabled>
+      <php>
+        <enabled>true</enabled>
+      </php>
+    </cgi>
+  </webui>
+
+</confdConfig>
