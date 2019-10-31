@@ -1,0 +1,44 @@
+A ConfD Performance Measurement Demo
+=====================================================
+
+Run a NETCONF networkwide transaction to from NSO to multiple ConfD
+instances that have the NETCONF capabilities :rollback-on-error, :candidate, 
+:confirmed-commit:1.1, and :validate:1.1 enabled and while
+:writable-running is discabled.
+
+Prerequisites
+-------------
+
+NSO and ConfD installation files, ConfD's libconfd tar-ball,
+and Docker installed.
+
+See setup.sh, Dockerfile, and router_nso/run.sh in that order for an overview.
+
+Steps
+-----
+1. NSO and ConfD installation files, ConfD's libconfd tar-ball.
+2. Change the version variables in the setup.sh file to reflect your
+NSO and ConfD installation file versions.
+
+3. Run the demo
+
+$ ./setup.sh
+
+Side note: The demo setup get the YANG models from the devices and use the 
+NSO>=5.2 NETCONF NED builder or the Pioneer package for NSO<5.2 to build the 
+NED representation of the three ConfD enalbed "routers" in this demo. 
+
+
+4. Create a nano service according to the README in NSOs nano service example.
+See output for an overview of what the resulting NSO RPCs are in NETCONF XML,
+the progress logs for NSO and the ConfD instances and the resulting configuration
+change in the ConfD instances printed in XML from a subscriber that get the 
+configuration using cdb_get_modifications()
+
+5. To trigger a rollback of the confirmed commit, start the "abort in 
+prepare phase" application on for example router2 (ConfD IPC port 4575) 
+
+$ docker exec -it confd-trans-demo ./tools/confd_cmd -p 4575 -c "subwait_abort2 /sys 1 1" 
+
+6. Change something in the nano service that result in a changed configuration in all 
+devices. See log output for and look for the "artificial abort". 
