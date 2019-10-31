@@ -53,7 +53,7 @@ RUN make USE_SSL_DIR=${USE_SSL_DIR} crypto \
     && apt-get clean \
     && ln -s /usr/bin/python3 /usr/bin/python
 
-COPY confd-dashboard.yaml /grafana-${GRFN_VERSION}/conf/provisioning/dashboards/
+COPY confd-demo-dashboards.yaml /grafana-${GRFN_VERSION}/conf/provisioning/dashboards/
 COPY prometheus-datasource.yaml /grafana-${GRFN_VERSION}/conf/provisioning/datasources/
 
 COPY pushgw-confd-*.sh /app/
