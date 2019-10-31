@@ -1,0 +1,36 @@
+e setup and execution of the demo.
+
+Steps
+-----
+1. Add the ConfD installer and ConfD's libconfd tar-ball to where you unpacked the 
+demo. 
+2. Change the version variables in the setup.sh file to reflect your ConfD installer 
+version.
+3. Run the demo
+
+$ ./setup.sh
+
+4. Open a web browser and go to http://localhost:3000/ to run Grafana.
+
+5. Login with tailf as user and pass. 
+
+6. The Grafana home screen show that Prometheus has been pre-configured as the data 
+source and that there are two dashboards, the ConfD performance measurement demo
+dashboard and the Prometheus node explorer dashboard. 
+
+On the ConfD demo dashboard, the gauges show the current ConfD process CPU and 
+RAM memory usage, including a RAM memory high watermark for the current test run. 
+The two time-mode graphs below the gauges show the same metrics for the past 5 
+minutes. The three bottom time-mode graphs show the wall clock time, RAM memory high
+watermark and RSS memory at the end of each test run. 
+
+Each test run will start ConfD, load N number of list entries as configuration data an XML file 
+using maapi_load_config(), and then read the configuration data in XML format using
+maapi_save_config() and NETCONF <get-config>.
+
+Bonus: See the ConfD progress.trace files from each test run for details on the read and 
+write transaction timings as performed by the ConfD transaction manager.
+
+$ docker exec -it confd-pm bash
+$ ls progress*.trace
+$ cat progress<12345>.trace

@@ -4,7 +4,7 @@ A NSO -> ConfD NETCONF Networkwide Transactions Demo
 Run a NETCONF networkwide transaction to from NSO to multiple ConfD
 instances that have the NETCONF capabilities :rollback-on-error, :candidate, 
 :confirmed-commit:1.1, and :validate:1.1 enabled and while
-:writable-running is discabled.
+:writable-running is disabled.
 
 Prerequisites
 -------------
@@ -26,7 +26,7 @@ $ ./setup.sh
 
 Side note: The demo setup get the YANG models from the devices and use the 
 NSO>=5.2 NETCONF NED builder or the Pioneer package for NSO<5.2 to build the 
-NED representation of the three ConfD enalbed "routers" in this demo. 
+NED representation of the three ConfD enabled "routers" in this demo. 
 
 
 4. Create a nano service according to the README in NSOs nano service example.
