@@ -1,0 +1,68 @@
+module smp {
+  namespace "http://tail-f.com/ns/example/smp";
+  prefix smp;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+
+  organization "Tail-f Systems (a Cisco company)";
+
+  contact "info@tail-f.com";
+
+  description
+    "YANG datamodel for External configuration data with transaction example
+     (C) 2005-2018 Tail-f Systems
+
+     Permission to use this code as a starting point hereby granted
+     This is ConfD Sample Code.
+
+     See the README file for more information";
+
+  revision 2018-12-06 {
+    description "YANG header information updated";
+  }
+
+  revision 2009-05-20 {
+    description "Initial revision.";
+  }
+
+  /*    A set of server structures  */
+  container servers {
+    tailf:callpoint simplecp;
+
+    list server {
+      key name;
+      max-elements 64;
+      leaf name {
+        type string;
+      }
+      leaf ip {
+        type inet:ip-address;
+        mandatory true;
+      }
+      leaf port {
+        type inet:port-number;
+        mandatory true;
+      }
+    }
+  }
+  container trace {
+    tailf:action libconfd {
+      tailf:actionpoint ap;
+      input {
+	leaf level {
+	  type enumeration{
+	    enum CONFD_SILENT;
+	    enum CONFD_DEBUG;
+	    enum CONFD_TRACE;
+	    enum CONFD_PROTO_TRACE;
+	  }
+	}
+      }
+    }
+  }
+}

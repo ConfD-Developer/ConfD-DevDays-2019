@@ -1,0 +1,53 @@
+Example
+
+Change the logging levels for devel.log and libonfd.trace from cli
+
+1. devel.log
+
+clispec command:
+    <cmd name="develLevel" mount="set">
+      <info>reload confd.conf parameters</info>
+      <help></help>
+      <callback>
+	<exec>
+          <osCommand>./ed.sh</osCommand>
+	</exec>
+      </callback>
+      <params>
+        <param>
+	  <type>
+	    <enums>info debug trace</enums>
+	  </type>
+	  </param>
+      </params>
+    </cmd>
+
+Do:
+
+[Terminal 1]
+$ make clean all start
+$ ./simple_withtrans -s &
+
+[Terminal 2]
+$ tail -f logs/devel.log
+
+[Terminal 1]
+$ confd_cli
+> show configuration server
+> set develLevel trace
+> show configuration server
+
+2. libconfd trace level
+
+[Terminal 1]
+$ make clean all start
+
+[Terminal 2]
+$ ./simple_trans -s
+
+[Terminal 1]
+$ confd_cli
+> show configuration server
+> request trace libconfd level CONFD_TRACE 
+> show configuration server
+

@@ -1,0 +1,47 @@
+Simple threads example
+~~~~~~~~~~~~~~~~~~~~~~
+
+If one have two threads/processes that reads/writes from/to the same 
+socket this can happen:
+
+Process A sends a request and expect a certain response.
+
+Process B does the same.
+
+Process A reads the integer that tells it how many bytes to read.
+
+Process B does the same but get the first 4 bytes of the reply body 
+	intended for process A.
+
+Process A reads the number of bytes it should, but the first 4 bytes 
+	has already been consumed by B so it reads the first 4 bytes 
+	of the next message. 
+
+When this happens one can see three different behaviours:
+
+1. The 4 bytes makes up a very large integer that's not possible to allocate 
+   memory for
+
+2. The 4 bytes makes up a large integer which is possible to allocate 
+   memory for, but since ConfD will not send that many bytes the client 
+   will be sitting their waiting.
+
+3. The 4 bytes makes up an integer that's smaller than the payload of the 
+   message from ConfD the client will get the data and will start to "unpack" 
+   it, which will most likely fail since it's not the data it expected.
+
+Run example: 
+
+$ make clean all start 
+
+$ ./maapi_test 
+
+[In new terminal] 
+
+get maapi_test program pid
+$ ps ax | grep maapi_test
+
+$ gdb maapi_test <pid maapi_test>
+$ thread apply all backtrace
+
+Expect the backtrace

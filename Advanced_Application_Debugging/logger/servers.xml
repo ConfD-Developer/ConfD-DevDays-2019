@@ -1,0 +1,7 @@
+  <servers xmlns="http://tail-f.com/ns/example/smp">
+    <server>
+      <name>1</name>
+      <ip>1.1.1.1</ip>
+      <port>1</port>
+    </server>
+  </servers>

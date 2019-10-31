@@ -1,0 +1,13 @@
+<INFO> 18-Oct-2019::13:33:07.808 EMHOLMST-M-G2WZ confd[27051]: confd embedded apps in early_phase0:
+	[]
+<INFO> 18-Oct-2019::13:33:08.121 EMHOLMST-M-G2WZ confd[27051]: confd mmap_schema handle_info got msg: timeout
+<INFO> 18-Oct-2019::13:33:08.166 EMHOLMST-M-G2WZ confd[27051]: confd embedded apps in phase0:
+	[]
+<INFO> 18-Oct-2019::13:33:08.362 EMHOLMST-M-G2WZ confd[27051]: devel-cdb init files found in ./confd-cdb: aaa_init.xml
+<INFO> 18-Oct-2019::13:33:08.441 EMHOLMST-M-G2WZ confd[27051]: devel-cdb Compacted CDB journal file: 1 ms (93 nodes in memory, disk size 1.47 KiB -> 1.39 KiB)
+<INFO> 18-Oct-2019::13:33:08.441 EMHOLMST-M-G2WZ confd[27051]: confd embedded apps in phase1:
+	[]
+<INFO> 18-Oct-2019::13:33:08.539 EMHOLMST-M-G2WZ confd[27051]: confd embedded apps in phase1_delayed:
+	[]
+<INFO> 18-Oct-2019::13:33:08.550 EMHOLMST-M-G2WZ confd[27051]: confd embedded apps in phase2:
+	[]

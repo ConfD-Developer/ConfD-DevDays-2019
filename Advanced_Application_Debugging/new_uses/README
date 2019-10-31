@@ -1,0 +1,33 @@
+control socket timeout
+~~~~~~~~~~~~~~~~~~~~~~
+
+This example illustrates how a control socket timeout 
+can occur for an exit of a session that is completly 
+unrelated to a ongoing transaction.
+
+Do:
+
+$ make clean all start
+
+[Terminal 1]
+$ confd_cli 
+
+[Terminal 2]
+$ confd_cli
+
+
+In terminal 1 do some configurations. 
+
+> configure
+% set servers server server1 ip 1.1.1. port 1
+% commit
+
+Within 10 seconds close the session started in terminal 2
+
+[terminal 2]
+> exit 
+
+You'll encounter a control socket timeout see logs/devel.log
+
+
+  

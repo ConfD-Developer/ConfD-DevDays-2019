@@ -1,0 +1,29 @@
+module interfaces-aug {
+  namespace "urn:interfaces-aug";
+  prefix "ifa";
+
+  import ietf-interfaces {
+    prefix "if";
+  }
+  import iana-if-type {
+    prefix "ianaift";
+  }
+  import ietf-yang-types {
+    prefix "yang";
+  }
+
+  augment "/if:interfaces/if:interface" {
+    container mac-address {
+      when "../if:type = 'ianaift:ethernetCsmacd'";
+      choice mac-address {
+        default auto;
+        leaf auto {
+          type empty;
+        }
+        leaf address {
+          type yang:mac-address;
+        }
+      }
+    }
+  }
+}

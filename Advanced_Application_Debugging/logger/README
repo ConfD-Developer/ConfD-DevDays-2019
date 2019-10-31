@@ -1,0 +1,24 @@
+Set up your own libconfd.trace logger:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+void mylogger(int syslogprio, const char *fmt, va_list ap) {
+ ...
+}
+
+ main() {
+   ...
+   confd_init("simple_withtrans", NULL, debuglevel);
+   confd_user_log_hook = mylogger; 
+  ...
+  }
+
+trace written to daemon.my.trace
+
+Do:
+
+$ make clean all start
+
+tail daemon.my.trace
+
+$ confd_cli
+> show configurations servers

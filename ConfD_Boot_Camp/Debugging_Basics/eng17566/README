@@ -1,0 +1,112 @@
+A regression (fixed in ConfD-6.5.4, ConfD-6.6 and later)
+
+  - confd: If a container with a 'when' expression had a descendant 'choice'
+    with a default 'case', and changes that both made the 'when' evaluate to
+    "true" and selected a non-default 'case' in the 'choice' were done in a
+    single commit, the 'case' selection was lost. This bug was introduced in
+    ConfD-6.5 and has now been fixed.
+
+    (ENG-17566, RT:31400, PS-27454)
+
+interfaces-aug.yang:
+  augment "/if:interfaces/if:interface" {
+    container mac-address {
+      when "../if:type = 'ianaift:ethernetCsmacd'";
+      choice mac-address {
+        default auto;
+        leaf auto {
+          type empty;
+        }
+        leaf address {
+          type yang:mac-address;
+        }
+      }
+    }
+  }
+
+1. create a skeleton from the example
+
+$ . ~/rel/confd-6.5/confdrc
+$ cp -R $CONFD_DIR/examples.confd/intro/1-2-3-start-query-model ../repro1
+
+2. add *.yang modules to the directory:
+
+$ cp *.yang ../repro1
+
+3. and to the ../repro1/Makefile:
+
+FXS = $(patsubst %.yang,%.fxs,$(wildcard *.yang))
+common-all: $(FXS) commands-j.ccl commands-c.ccl $(CDB_DIR) ssh-keydir
+
+$ make clean all start
+
+4. set the configuration from the cli
+
+admin@EMHOLMST-M-G2WZ% set interfaces interface eth0 type ethernetCsmacd enabled mac-address address 00:11:22:33:44:55
+admin@EMHOLMST-M-G2WZ% show|compare
+interfaces {
++    interface eth0 {
++        type ethernetCsmacd;
++        enabled;
++        mac-address {
++            address 00:11:22:33:44:55;
++        }
++    }
+ }
+admin@EMHOLMST-M-G2WZ% commit
+
+appears to work fine from the CLI
+
+admin@EMHOLMST-M-G2WZ% show interfaces | display xml
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+    <interface>
+      <name>eth0</name>
+      <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      <enabled>true</enabled>
+      <mac-address xmlns="urn:interfaces-aug">
+        <address>00:11:22:33:44:55</address>
+      </mac-address>
+    </interface>
+  </interfaces>
+</config>
+
+5. save the configuration as XML
+
+admin@EMHOLMST-M-G2WZ% show interfaces | display xml | save interfaces.xml
+
+5. undo last change
+
+admin@EMHOLMST-M-G2WZ% rollback
+admin@EMHOLMST-M-G2WZ% commit
+admin@EMHOLMST-M-G2WZ% show interfaces 
+No entries found.
+
+7. try from NETCONF instead
+
+delete <config xmlns="http://tail-f.com/ns/config/1.0"> and </config> tags.
+
+$ netconf-console --edit-config interfaces.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="1">
+  <ok/>
+</rpc-reply>
+
+8. verify the result
+
+$ netconf-console --get-config -x /interfaces
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="1">
+  <data>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>eth0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <enabled>true</enabled>
+      </interface>
+    </interfaces>
+  </data>
+</rpc-reply>
+
+the address leaf is missing!
+

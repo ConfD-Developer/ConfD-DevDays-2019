@@ -1,0 +1,476 @@
+<clispec xmlns="http://tail-f.com/ns/clispec/1.0" style="j">
+  
+  <operationalMode>
+
+    <modifications>
+      <!--compactElem src="example top"/-->
+      <delete src="configure exclusive"/>
+    
+      <!--paginate path="show" value="false"/-->
+    </modifications>
+    <!--start>
+      <callback>
+	<exec>
+	  <osCommand>startup.sh</osCommand>
+	</exec>
+      </callback>
+    </start>
+    
+    <cmd name="start">
+      <callback>
+	<exec>
+	  <osCommand>tail</osCommand>
+	  <args>-f -n 0 /var/log/daemon.log</args>
+	  <options>
+	    <batch>
+	      <group>monitor_file</group>
+	      <prefix>Log:</prefix>
+          <noDuplicate/>
+	    </batch>
+	  </options>
+	</exec>
+      </callback>
+      <help></help>
+      <info></info>
+    </cmd>
+    
+    <cmd name="stop">
+      <callback>
+	<execStop batchGroup="monitor_file"/>
+      </callback>
+      <help></help>
+      <info></info>
+    </cmd-->
+    
+    <cmd name="xpath">
+      <info>Evaluate xpath expression</info>
+      <help>Evaluate xpath expression</help>
+      <callback>
+	<exec>
+          <osCommand>maapi</osCommand>
+	  <args>--xpath-initial-path '$(ipath)'</args>
+	</exec>
+      </callback>
+      <params>
+        <param>
+          <optional/>
+          <type><void/></type>
+          <name>trace</name>
+          <prefix>--verbose</prefix>
+        </param>
+        <param>
+          <info>&lt;expression&gt;</info>
+          <help>XPath expression to evaluate</help>
+          <flag>--xpath</flag>
+        </param>
+      </params>
+    </cmd>
+    
+    <cmd name="widgets" mount="show">
+      <callback>
+	<exec>
+	  <osCommand>./show.sh</osCommand>
+	</exec>
+      </callback>
+      <params>
+	<param>
+	  <type>
+	    <xpath expr="/available_witgets/name"/>
+	  </type>
+	</param>
+      </params>
+      <options><paginate/></options>
+      <help></help>
+      <info></info>
+    </cmd>
+    
+    <cmd name="bash" mount="">
+      <help></help>
+      <info></info>
+      <callback>
+	<exec>
+	  <osCommand>/bin/bash</osCommand>
+	  <args></args>
+	  <options>
+	    <interrupt>ctrlc</interrupt>
+	  </options>
+	</exec>
+      </callback>
+    </cmd>
+    
+    <cmd name="ssh" mount="">
+      <callback>
+	<exec>
+	  <osCommand>/usr/bin/ssh</osCommand>
+	  <args></args>
+	  <options>
+	    <interrupt>ctrlc</interrupt>
+	  </options>
+	</exec>
+      </callback>
+      <params>
+     <any>
+       <info>host</info>
+       <help>host</help>
+     </any>
+      </params>
+      <help>MY ssh</help>
+      <info>MY ssh</info>
+    </cmd>
+    
+    <cmd name="debug" mount="">
+      <info>Debug</info>
+      <help>Debug</help>
+      <callback>
+	<exec>
+	  <osCommand>./debug.sh</osCommand>
+	</exec>
+      </callback>
+      <params>
+	<param>
+	  <type>
+	    <keypath> new</keypath>
+	  </type>
+      <name>abc</name>
+      <info>debug abc</info>
+      <help>debug abc</help>
+      <params>
+	<any>
+	  <info>any nummber of arguments</info>
+	  <help>any nummber of arguments</help>
+	</any>
+      </params>
+	</param>
+      </params>
+    </cmd>
+
+    <cmd name="paginate_test" mount="">
+      <info>same as confd --status from terminal</info>
+      <help>same as confd --status from terminal </help>
+      <callback>
+	<exec>
+	  <osCommand>./pag</osCommand>
+	  <args>$(user) $(uid) $(gid) $(groups) $(maapi)</args>
+	</exec>
+      </callback>
+      <options><paginate/></options>
+    </cmd>
+
+
+
+    <cmd name="my_request">
+      <info>Request information about the system</info>
+      <help>Request information about the system</help>
+      <callback>
+	<exec>
+	  <osCommand>/bin/echo</osCommand>
+	  </exec>
+	  </callback>
+      <params>
+        <param>
+          <info>system</info>
+        </param> 
+        <param>
+          <info>admin</info>
+        </param>
+	<param>     
+	  <info>transferFile</info>
+        </param>
+	<param>   
+	  <info>password</info>
+	  <auditLogHide/>
+	</param>
+      </params>
+    </cmd>
+
+    <cmd name="do_request" mount="">
+      <info></info>
+      <help></help>
+      <callback> 
+	<exec>
+	  <osCommand>/bin/echo</osCommand>
+	</exec>
+      </callback>
+      <params>
+	<param>
+	  <name>system</name>
+	  <help>system choice</help>
+	  <type><void/></type>
+	</param>
+	<param>
+	  <name>admin</name>
+	  <help>KeyName</help>
+	  <type>
+	    <simpleType name="string" 
+			namespace="http://www.w3.org/2001/XMLSchema"/>
+	  </type>
+	</param>
+	<param>
+	  <name>transferFile</name>
+	  <help>file trans</help>
+	  <type>
+	    <file wd="."/>
+	  </type>
+	</param>
+	<param>
+	  <info>password</info>
+	  <!--name>password</name-->
+	  <!--type>
+	    <simpleType name="string" 
+			namespace="http://www.w3.org/2001/XMLSchema"/>
+	  </type-->
+	  <auditLogHide/>
+	</param>
+      </params>
+    </cmd>
+    
+	
+    <!--cmd name="ping1" mount="">
+      <info>Send an echo request to a network host</info>
+      <help>Send an echo request to a network host </help>
+      <callback> 
+	<exec>
+	  <osCommand>/bin/ping</osCommand>
+	</exec>
+      </callback>
+      <params>
+	<param>
+          <type><void/></type>
+          <params mode="choice" min="0" max="100">
+            <param>
+              <name>count</name>
+              <mapTo>-c</mapTo>
+              <help>Number of ICMP echo requests to send</help>
+            </param>
+            <param>
+              <name>interval</name>
+              <mapTo>-i</mapTo>
+              <help>Time (in seconds) between ICMP echo requests</help>
+            </param>
+            <param>
+              <name>pattern</name>
+	      <type><file/></type>
+	      <mapTo>-p</mapTo>
+              <help>Pattern (up to 16 bytes) to fill out the packets</help>
+            </param>
+            <param>
+              <name>source-address</name>
+              <mapTo>-I</mapTo>
+              <help>Source IP address to use</help>
+            </param>
+            <param>
+              <name>ttl</name>
+              <mapTo>-t</mapTo>
+              <help>Time to live</help>
+            </param>
+            <param>
+              <name>size</name>
+              <mapTo>-s</mapTo>
+              <help>Packet size</help>
+            </param>
+            <param>
+              <name>wait-time</name>
+              <mapTo>-w</mapTo>
+              <help>Ping for the specified number of seconds</help>
+            </param>
+            <param>
+              <name>timeout</name>
+              <mapTo>-W</mapTo>
+              <help>Number of seconds to wait for an ICMP REPLY</help>
+            </param>
+            <param>
+              <name>numeric</name>
+              <type><void/></type>
+              <mapTo>-n</mapTo>
+              <help>Do not attempt to look up host names</help>
+            </param>
+            <param>
+              <name>quiet</name>
+              <type><void/></type>
+              <mapTo>-q</mapTo>
+              <help>Only display first and summary lines</help>
+            </param>
+            <param>
+              <name>adaptive</name>
+              <type><void/></type>
+              <mapTo>-A</mapTo>
+              <help>Adaptive ping</help>
+            </param>
+            <param>
+              <name>broadcast</name>
+              <type><void/></type>
+              <mapTo>-b</mapTo>
+              <help>Allow pinging a broadcast address</help>
+            </param>
+            <param>
+              <name>record-route</name>
+              <type><void/></type>
+              <mapTo>-R</mapTo>
+              <help>Allow pinging a broadcast address</help>
+            </param>
+            <param>
+              <name>bound</name>
+              <type><void/></type>
+              <mapTo>-B</mapTo>
+              <help>Do not allow ping to change source address of probes</help>
+            </param>
+          </params>
+        </param>
+        <param>
+          <help>Host to ping</help>
+          <info>Host to ping</info>
+        </param>
+      </params>
+    </cmd-->
+
+    <cmd name="rename_device">
+      <info>rename</info>
+      <help>rename</help>
+      <callback>
+	<exec>
+	  <osCommand>./rename.sh</osCommand>
+	</exec>
+      </callback>
+      <params>
+	<param>
+	  <type>
+            <xpath expr="/devices/device"/>
+	  </type>
+          <name>device</name>
+	</param>
+        <param>
+	  <type>
+	    <simpleType name="string"
+			namespace="http://www.w3.org/2001/XMLSchema"/>
+	  </type>
+            <name>to_name</name>
+        </param>
+      </params>
+    </cmd>
+
+    <cmd name="example">
+      <info>Unhide example</info>
+      <help>Unhide example</help>
+      <callback>
+        <exec>
+          <osCommand>./test</osCommand>
+          <options>
+            <uid>user</uid>
+          </options>
+        </exec>
+      </callback>
+    </cmd>
+
+ 
+
+    <cmd name="vprint">
+      <info>Customizable ctest info</info>
+      <help></help>
+      <callback>
+        <capi>
+          <cmdpoint>cli-point</cmdpoint>
+        </capi>
+      </callback>
+    </cmd>
+
+  </operationalMode>
+  
+  <configureMode>
+    <cmd name="must">
+      <info>Evaluate xpath must expression</info>
+      <help>Evaluate xpath must expression</help>
+      <callback>
+        <exec>
+          <osCommand>maapi</osCommand>
+          <args>--xpath-initial-path '$(ipath)'</args>
+        </exec>
+      </callback>
+      <params>
+        <param>
+          <optional/>
+          <type><void/></type>
+          <name>trace</name>
+          <prefix>--verbose</prefix>
+        </param>
+        <param>
+          <info>&lt;expression&gt;</info>
+          <help>XPath must expression to evaluate</help>
+          <flag>--xpath-must</flag>
+        </param>
+      </params>
+    </cmd>
+    
+    <cmd name="xpath">
+      <info>Evaluate xpath expression</info>
+      <help>Evaluate xpath expression</help>
+      <callback>
+        <exec>
+          <osCommand>maapi</osCommand>
+          <args>--xpath-initial-path '$(ipath)'</args>
+        </exec>
+      </callback>
+      <params>
+        <param>
+          <optional/>
+          <type><void/></type>
+          <name>trace</name>
+          <prefix>--verbose</prefix>
+        </param>
+        <param>
+          <info>&lt;expression&gt;</info>
+          <help>XPath expression to evaluate</help>
+          <flag>--xpath</flag>
+        </param>
+      </params>
+    </cmd>
+    
+    <cmd name="sleep" mount="">
+      <info></info>
+      <help></help>
+      <callback>
+	<exec>
+	  <osCommand>/bin/sleep</osCommand>
+	</exec>
+      </callback>
+      <params>
+	<param>
+	    </param>
+      </params>
+    </cmd>
+  </configureMode>
+
+  <pipeCmds>
+        <!--modifications>
+	  <move src="save" dest="save_built_in"/>
+	  <hide src="save_built_in"/>
+	</modifications-->
+
+	<cmd name="save" mount="">
+	  <info>Save to my file</info>
+	  <help>Save to my file</help>
+	  <callback>
+	    <exec>
+	      <osCommand>./pipe_save</osCommand>
+	      <args>$(spath)</args>
+	    </exec>
+	  </callback>
+	  <params mode="choice" max="1" min="1">
+	    <param>
+	      <type>
+		<file wd="."/>
+	      </type>
+	    </param>
+	    <param>
+	      <type>
+            <simpleType name="string"
+                        namespace="http://www.w3.org/2001/XMLSchema"/>
+	      </type>
+	      <info>filename</info>
+	      <help>filename</help>
+	    </param>
+	  </params>
+	</cmd>
+  </pipeCmds>
+
+
+</clispec>

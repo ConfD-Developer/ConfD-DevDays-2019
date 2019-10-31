@@ -1,0 +1,30 @@
+module example {
+  namespace "http://tail-f.com/ns/example/config";
+  prefix example;
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  list obj {
+    key name;
+    leaf name{
+      type string;
+    }
+    leaf nod1 {
+      type string;
+    }
+    leaf nod2 {
+      type string;
+    }
+    leaf nod3 {
+      type string;
+    }
+    leaf nod4 {
+      type string;
+    }
+  }
+
+}
+

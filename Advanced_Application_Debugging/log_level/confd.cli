@@ -1,0 +1,42 @@
+<clispec xmlns="http://tail-f.com/ns/clispec/1.0" style="j">
+  <operationalMode>
+    <modifications>
+    </modifications>
+    <cmd name="develLevel" mount="set">
+      <info>reload confd.conf parameters</info>
+      <help></help>
+      <callback>
+	<exec>
+          <osCommand>./ed.sh</osCommand>
+	</exec>
+      </callback>
+      <params>
+        <param>
+	  <type>
+	    <enums>info debug trace</enums>
+	  </type>
+	  </param>
+      </params>
+    </cmd>    
+  </operationalMode>
+  <configureMode>
+    <modifications>
+    </modifications>
+    <cmd name="develLevel" mount="set">
+      <info>reload confd.conf parameters</info>
+      <help></help>
+      <callback>
+	<exec>
+	  <osCommand>./ed.sh</osCommand>
+	</exec>
+      </callback>
+      <params>
+	<param>
+	  <type>
+	    <enums>info debug trace</enums>
+	  </type>
+	</param>
+      </params>
+    </cmd>    
+  </configureMode>
+</clispec>
