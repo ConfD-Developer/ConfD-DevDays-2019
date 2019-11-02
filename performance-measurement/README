@@ -1,4 +1,23 @@
-e setup and execution of the demo.
+A ConfD Performance Measurement Demo
+====================================
+
+Run a performance measurement demo where a MAAPI load and save config + a 
+NETCONF <get-config> is performed. One shell script print out the result
+in wall clock time and the other monitor the cpu load and RAM memory RSS 
+and high watermark usage. The former shell script also push the result to
+the Prometheus Push Gateway that is scraped by Prometheus. Grafana is used
+to visiualize the results that was uploaded to Prometheus using a "ConfD
+Performance Measurement Demo Dashboard". The Prometheus node explorer is 
+also enabled together with the Grafana node explorer dashboard. All components
+run in a Docker container for demo purposes. 
+
+See setup.sh, Dockerfile, pushgw-confd-testrun.sh, pushgw-confd-monitor.sh in 
+that order for an overview of the setup and execution of the demo.
+
+Prerequisites
+-------------
+
+ConfD installer, ConfD libconfd tar-ball, and Docker.
 
 Steps
 -----
